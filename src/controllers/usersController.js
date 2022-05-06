@@ -12,7 +12,7 @@ export const postUsers = async (req, res) => {
   const encryptedPassword = bcrypt.hashSync(newUser.password, 10);
 
   try {
-    const user = await db.collection('users').findOne({ email: newUser.email });
+    const user = await db.collection('users').findOne({ email: { $regex: new RegExp(`^${newUser.email}$`) } });
 
     if (user) return res.sendStatus(409);
 
