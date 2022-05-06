@@ -1,13 +1,8 @@
 import bcrypt from 'bcrypt';
 import db from '../db.js';
-import newUserSchema from '../schemas/newUserSchema.js';
 
 export const postUsers = async (req, res) => {
   const newUser = req.body;
-
-  const validation = newUserSchema.validate(newUser);
-
-  if (validation.error) return res.sendStatus(422);
 
   const encryptedPassword = bcrypt.hashSync(newUser.password, 10);
 
