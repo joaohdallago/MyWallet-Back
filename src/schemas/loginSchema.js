@@ -1,9 +1,6 @@
 import Joi from 'joi';
 
-const newUserSchema = Joi.object({
-  name: Joi.string()
-    .required(),
-
+const loginSchema = Joi.object({
   email: Joi.string()
     .email()
     .required(),
@@ -12,4 +9,4 @@ const newUserSchema = Joi.object({
     .required(),
 });
 
-export default newUserSchema;
+export default loginSchema;

@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt';
 import db from '../db.js';
 
 export const postUsers = async (req, res) => {
-  const newUser = req.body;
-  const encryptedPassword = bcrypt.hashSync(newUser.password, 10);
+  const signup = req.body;
+  const encryptedPassword = bcrypt.hashSync(signup.password, 10);
 
   try {
-    await db.collection('users').insertOne({ ...newUser, password: encryptedPassword });
+    await db.collection('users').insertOne({ ...signup, password: encryptedPassword });
 
     return res.sendStatus(201);
   } catch (error) {
@@ -14,7 +14,7 @@ export const postUsers = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => { // dev
   try {
     const users = await db.collection('users').find().toArray();
 
