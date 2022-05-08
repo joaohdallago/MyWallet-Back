@@ -6,7 +6,7 @@ export const postUsers = async (req, res) => {
   const encryptedPassword = bcrypt.hashSync(signup.password, 10);
 
   try {
-    await db.collection('users').insertOne({ ...signup, password: encryptedPassword });
+    await db.collection('users').insertOne({ ...signup, password: encryptedPassword, transactions: [] });
 
     return res.sendStatus(201);
   } catch (error) {
@@ -14,11 +14,17 @@ export const postUsers = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => { // dev
+export const getUsers = async (req, res) => {
+  const { session } = res.locals;
   try {
-    const users = await db.collection('users').find().toArray();
+    const user = await db.collection('users').findOne({ _id: session.userId });
 
-    return res.send(users);
+    if (!user) return res.status(401).send('Este usuário não está cadastrado!');
+
+    delete user._id;
+    delete user.password;
+
+    return res.send(user);
   } catch (error) {
     return res.send(error);
   }

@@ -14,6 +14,8 @@
     "rules": {
         "import/extensions": ["error", "ignorePackages", {
             "js": "always"
-          }]
+          }],
+
+        "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     }
 }
